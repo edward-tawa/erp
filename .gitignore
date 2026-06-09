@@ -1,0 +1,19 @@
+# Backend virtual environments
+backend/venv/
+backend/.venv/
+
+# Backend environment files
+backend/.env
+backend/.env.*
+
+# Python cache
+backend/__pycache__/
+backend/**/*.pyc
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
