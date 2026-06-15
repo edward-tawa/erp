@@ -6,7 +6,7 @@ class CartItem(CreatedUpdatedAt):
     cart = models.ForeignKey(
         "sales.Cart",
         on_delete=models.CASCADE,
-        related_name="cart_items",
+        related_name="items",
         help_text="The cart this item belongs to",
     )
 

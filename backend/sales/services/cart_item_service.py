@@ -1,7 +1,9 @@
+from typing import List
 from django.db import transaction
 from loguru import logger
 from sales.models.cart_item_model import CartItem
 from sales.services.cart_service import CartService
+from inventory.models.product_model import Product
 
 
 class CartItemService:
@@ -21,6 +23,34 @@ class CartItemService:
             )
         CartService.calculate_cart_total(cart)
         return cart_item
+
+    @staticmethod
+    @transaction.atomic
+    def create_cart_items(cart, items: List):
+        created_cart_items = []
+        missing_products = []
+        products = Product.objects.in_bulk([item["product"] for item in items])
+
+        for item in items:
+            if item["product"] not in products:
+                logger.error(f"Product with ID '{item['product']}' does not exist")
+                missing_products.append(item["product"])
+
+        if missing_products:
+            raise ValueError(f"Products with IDs {missing_products} do not exist")
+
+        for item in items:
+            product = products.get(item["product"])
+            cart_item = CartItemService.create_cart_item(
+                cart=cart,
+                product=product,
+                quantity=item["quantity"],
+                unit_price=product.price,
+            )
+            created_cart_items.append(cart_item)
+
+        CartService.calculate_cart_total(cart)
+        return created_cart_items
 
     @staticmethod
     @transaction.atomic

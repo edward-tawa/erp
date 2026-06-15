@@ -14,15 +14,11 @@ class SalesOrderItemService:
             quantity=quantity,
             unit_price=unit_price,
         )
-        if sales_order_item:
-            SalesOrderItemService.calculate_sales_order_total(sales_order)
-            logger.info(
-                f"Created sales order item for product '{sales_order_item.product.name}' with quantity {sales_order_item.quantity} and unit price {sales_order_item.unit_price} in sales order '{sales_order.order_number}'"
-            )
-        else:
-            logger.error(
-                f"Failed to create sales order item for product '{product.name}' with quantity {quantity} and unit price {unit_price} in sales order '{sales_order.order_number}'"
-            )
+        # update sales order total
+        SalesOrderService.update_sales_order_total(sales_order)
+        logger.info(
+            f"Created sales order item for product '{sales_order_item.product.name}' with quantity {sales_order_item.quantity} and unit price {sales_order_item.unit_price} in sales order '{sales_order.order_number}'"
+        )
         return sales_order_item
 
     @staticmethod

@@ -1,29 +1,50 @@
 from django.db import transaction
 from loguru import logger
 from sales.models.receipt_item_model import ReceiptItem
+from sales.models.sales_order_model import SalesOrder
 from sales.services.receipt_service import ReceiptService
 
 
 class ReceiptItemService:
     @staticmethod
     @transaction.atomic
-    def create_receipt_item(*, receipt, sales_order_item, quantity, unit_price):
+    def create_receipt_item(*, receipt, sales_order_item):
         receipt_item = ReceiptItem.objects.create(
             receipt=receipt,
             sales_order_item=sales_order_item,
-            quantity=quantity,
-            unit_price=unit_price,
+            quantity=sales_order_item.quantity,
+            unit_price=sales_order_item.unit_price,
         )
         if receipt_item:
-            ReceiptService.update_total_amount(receipt_item.receipt.id)
+            ReceiptService.update_receipt_total_amount(receipt)
             logger.info(
                 f"Created receipt item for product '{receipt_item.sales_order_item.product.name}' with quantity {receipt_item.quantity} and unit price {receipt_item.unit_price} in receipt '{receipt.receipt_reference}'"
             )
         else:
             logger.error(
-                f"Failed to create receipt item for product '{sales_order_item.product.name}' with quantity {quantity} and unit price {unit_price} in receipt '{receipt.receipt_reference}'"
+                f"Failed to create receipt item for product '{sales_order_item.product.name}' with quantity {sales_order_item.quantity} and unit price {sales_order_item.unit_price} in receipt '{receipt.receipt_reference}'"
             )
         return receipt_item
+
+    @staticmethod
+    def create_receipt_items(*, receipt, sales_order: SalesOrder):
+        created_list = []
+        for item in sales_order.items.all():
+            sales_order_item = item
+            quantity = item.quantity
+            unit_price = item.unit_price
+            receipt_item = ReceiptItemService.create_receipt_item(
+                receipt=receipt,
+                sales_order_item=sales_order_item,
+                quantity=quantity,
+                unit_price=unit_price,
+            )
+
+            created_list.append(receipt_item)
+
+        ReceiptService.update_receipt_total_amount(receipt.id)
+
+        return created_list
 
     def update_receipt_item(receipt_item_id, **updated_fields):
         try:

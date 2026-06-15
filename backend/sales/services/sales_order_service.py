@@ -8,6 +8,22 @@ from decimal import Decimal
 
 class SalesOrderService:
     @staticmethod
+    @transaction.atomic
+    def create_sales_order(*, user, customer, order_number=None, status="pending"):
+        sales_order = SalesOrder.objects.create(
+            user=user, customer=customer, order_number=order_number, status=status
+        )
+        if sales_order:
+            logger.info(
+                f"Created sales order '{sales_order.order_number}' for customer '{sales_order.customer.name}' with status '{sales_order.get_status_display()}'"
+            )
+        else:
+            logger.error(
+                f"Failed to create sales order '{order_number}' for customer '{customer.name}' with status '{status}'"
+            )
+        return sales_order
+
+    @staticmethod
     def update_sales_order_total(sales_order):
         total = (
             SalesOrderItem.objects.filter(sales_order=sales_order)
@@ -18,22 +34,6 @@ class SalesOrderService:
         type(sales_order).objects.filter(id=sales_order.id).update(total_amount=total)
 
         return total
-
-    @staticmethod
-    @transaction.atomic
-    def create_sales_order(*, customer_name=None, order_number, status="pending"):
-        sales_order = SalesOrder.objects.create(
-            customer_name=customer_name, order_number=order_number, status=status
-        )
-        if sales_order:
-            logger.info(
-                f"Created sales order '{sales_order.order_number}' for customer '{sales_order.customer_name}' with status '{sales_order.get_status_display()}'"
-            )
-        else:
-            logger.error(
-                f"Failed to create sales order '{order_number}' for customer '{customer_name}' with status '{status}'"
-            )
-        return sales_order
 
     @staticmethod
     @transaction.atomic

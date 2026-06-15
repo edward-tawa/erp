@@ -3,6 +3,8 @@ from loguru import logger
 from sales.models.receipt_model import Receipt
 from decimal import Decimal
 from django.db.models import F, Sum
+from sales.services.sale_service import SaleService
+from sales.services.receipt_item_service import ReceiptItemService
 
 
 class ReceiptService:
@@ -16,9 +18,21 @@ class ReceiptService:
                 user=user,
                 notes=notes,
             )
+
+            # create a sale associated with the receipt
+            SaleService.create_sale(
+                sales_order=sales_order, user=user, receipt=receipt, notes=notes
+            )
+
+            # create receipt items associated with the receipt
+            ReceiptItemService.create_receipt_items(
+                receipt=receipt, sales_order=sales_order
+            )
+
             logger.info(
                 f"Receipt '{receipt.receipt_reference}' created for sales order '{sales_order.order_number}'"
             )
+
         except Exception as e:
             logger.error(f"Error occurred while creating receipt: {e}")
             raise
