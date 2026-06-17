@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from inventroy.models.stock_movement_model import StockMovement
+from inventory.models.stock_movement_model import StockMovement
 
 
 class StockMovementSerializer(serializers.ModelSerializer):

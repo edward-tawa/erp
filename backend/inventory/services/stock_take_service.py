@@ -1,4 +1,4 @@
-from inventroy.models.stock_take_model import StockTake
+from inventory.models.stock_take_model import StockTake
 from django.db import transaction
 from loguru import logger
 
@@ -6,20 +6,19 @@ from loguru import logger
 class StockTakeService:
     @staticmethod
     @transaction.atomic
-    def create_stock_take(*, reference_number, quantity, status=None, notes=None):
+    def create_stock_take(*, reference_number=None, status=None, notes=None):
         stock_take = StockTake.objects.create(
             reference_number=reference_number,
-            quantity=quantity,
             status=status or StockTake.Status.ONGOING,
             notes=notes,
         )
         if stock_take:
             logger.info(
-                f"Created stock take with reference number '{stock_take.reference_number}' and quantity {stock_take.quantity}"
+                f"Created stock take with reference number '{stock_take.reference_number}'"
             )
         else:
             logger.error(
-                f"Failed to create stock take with reference number '{reference_number}' and quantity {quantity}"
+                f"Failed to create stock take with reference number '{reference_number}'"
             )
         return stock_take
 

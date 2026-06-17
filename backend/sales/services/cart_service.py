@@ -10,10 +10,6 @@ class CartService:
     @transaction.atomic
     def create_cart(*, user):
         cart = Cart.objects.create(user=user)
-        if cart:
-            logger.info(f"Created cart for user '{cart.user.username}'")
-        else:
-            logger.error(f"Failed to create cart for user '{user.username}'")
         return cart
 
     @staticmethod

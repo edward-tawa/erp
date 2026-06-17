@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
-from inventroy.models.product_model import Product
-from inventroy.serializers.product_serializer import ProductSerializer
+from inventory.models.product_model import Product
+from inventory.serializers.product_serializer import ProductSerializer
 from users.permissions.user_permissions import IsAdmin, IsManager, IsEmployee, IsViewer
 from authentication.custom_jwt.custom_jwt import CustomJWTAuthentication
 from rest_framework.permissions import IsAuthenticated

@@ -1,17 +1,17 @@
-from rest_framework.viewsets import ModelviewSet
+from rest_framework.viewsets import ModelViewSet
 from sales.models.sales_order_item_model import SalesOrderItem
 from sales.serializers.sales_order_item_serializer import SalesOrderItemSerializer
 from users.permissions.user_permissions import IsEmployee, IsManager
 from loguru import logger
 
 
-class SalesOrderItemViewSet(ModelviewSet):
+class SalesOrderItemViewSet(ModelViewSet):
     queryset = SalesOrderItem.objects.all().order_by("-created_at")
     serializer_class = SalesOrderItemSerializer
 
     def get_permissions(self):
         if self.action in ["list", "retrieve"]:
-            permission_classes = [IsEmployee | IsManager]
+            permission_classes = [IsEmployee]
         else:
             permission_classes = [IsManager]
         return [permission() for permission in permission_classes]

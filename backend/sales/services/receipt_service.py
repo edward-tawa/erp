@@ -3,7 +3,6 @@ from loguru import logger
 from sales.models.receipt_model import Receipt
 from decimal import Decimal
 from django.db.models import F, Sum
-from sales.services.sale_service import SaleService
 from sales.services.receipt_item_service import ReceiptItemService
 
 
@@ -17,11 +16,6 @@ class ReceiptService:
                 sales_order=sales_order,
                 user=user,
                 notes=notes,
-            )
-
-            # create a sale associated with the receipt
-            SaleService.create_sale(
-                sales_order=sales_order, user=user, receipt=receipt, notes=notes
             )
 
             # create receipt items associated with the receipt

@@ -11,7 +11,7 @@ class SalesOrderViewSet(ModelViewSet):
 
     def get_permissions(self):
         if self.action in ["list", "retrieve"]:
-            permission_classes = [IsEmployee | IsManager]
+            permission_classes = [IsEmployee]
         else:
             permission_classes = [IsManager]
         return [permission() for permission in permission_classes]

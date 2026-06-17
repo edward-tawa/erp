@@ -3,6 +3,7 @@ from loguru import logger
 from sales.models.receipt_item_model import ReceiptItem
 from sales.models.sales_order_model import SalesOrder
 from sales.services.receipt_service import ReceiptService
+from inventory.services.stock_service import StockService
 
 
 class ReceiptItemService:
@@ -15,15 +16,13 @@ class ReceiptItemService:
             quantity=sales_order_item.quantity,
             unit_price=sales_order_item.unit_price,
         )
-        if receipt_item:
-            ReceiptService.update_receipt_total_amount(receipt)
-            logger.info(
-                f"Created receipt item for product '{receipt_item.sales_order_item.product.name}' with quantity {receipt_item.quantity} and unit price {receipt_item.unit_price} in receipt '{receipt.receipt_reference}'"
-            )
-        else:
-            logger.error(
-                f"Failed to create receipt item for product '{sales_order_item.product.name}' with quantity {sales_order_item.quantity} and unit price {sales_order_item.unit_price} in receipt '{receipt.receipt_reference}'"
-            )
+        ReceiptService.update_receipt_total_amount(receipt)
+        StockService.adjust_product_stock(
+            product=sales_order_item.product, quantity=-sales_order_item.quantity
+        )
+        logger.info(
+            f"Created receipt item for product '{receipt_item.sales_order_item.product.name}' with quantity {receipt_item.quantity} and unit price {receipt_item.unit_price} in receipt '{receipt.receipt_reference}'"
+        )
         return receipt_item
 
     @staticmethod

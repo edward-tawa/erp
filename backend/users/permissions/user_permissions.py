@@ -31,3 +31,13 @@ class IsEmployee(BaseRolePermission):
 
 class IsViewer(BaseRolePermission):
     required_perms = ROLE_PERMISSION_MAPPING.get("viewer", [])
+
+
+class IsAnyRole(BasePermission):
+    def has_permission(self, request, view):
+        return (
+            IsAdmin().has_permission(request, view)
+            or IsManager().has_permission(request, view)
+            or IsEmployee().has_permission(request, view)
+            or IsViewer().has_permission(request, view)
+        )

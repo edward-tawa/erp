@@ -1,4 +1,4 @@
-from inventroy.models.stock_movement_model import StockMovement
+from inventory.models.stock_movement_model import StockMovement
 from django.db import transaction
 from loguru import logger
 

@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from inventroy.views.product_stock_views import ProductStockViewSet
+from inventory.views.product_stock_views import ProductStockViewSet
 
 
 router = DefaultRouter()

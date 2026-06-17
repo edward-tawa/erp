@@ -1,7 +1,7 @@
-from django.contrib.auth.models import ModelBackend
+from django.contrib.auth.backends import ModelBackend
 from django.core.exceptions import MultipleObjectsReturned
 from django.contrib.auth import get_user_model
-from django.db import Q
+from django.db.models import Q
 from loguru import logger
 
 User = get_user_model()

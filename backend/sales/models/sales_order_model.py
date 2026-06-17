@@ -52,9 +52,9 @@ class SalesOrder(CreatedUpdatedAt):
             self.order_number = f"{self.PREFIX}-{unique_id}"
 
     def calculate_sales_order_total(self):
-        return self.sales_order_items.aggregate(
-            total=Sum(F("quantity") * F("unit_price"))
-        ).get("total") or Decimal("0.00")
+        return self.items.aggregate(total=Sum(F("quantity") * F("unit_price"))).get(
+            "total"
+        ) or Decimal("0.00")
 
     def update_sales_order_total(self):
         total = self.calculate_sales_order_total()
@@ -75,5 +75,5 @@ class SalesOrder(CreatedUpdatedAt):
 
         indexes = [
             models.Index(fields=["order_number"]),
-            models.Index(fields=["customer_name"]),
+            models.Index(fields=["customer"]),
         ]

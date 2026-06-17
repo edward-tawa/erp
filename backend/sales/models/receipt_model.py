@@ -11,6 +11,7 @@ class Receipt(CreatedUpdatedAt):
     sales_order = models.ForeignKey(
         "sales.SalesOrder",
         on_delete=models.SET_NULL,
+        null=True,
         related_name="receipt",
         help_text="receipt for the sales order",
     )
@@ -18,6 +19,7 @@ class Receipt(CreatedUpdatedAt):
     user = models.ForeignKey(
         "users.CustomUser",
         on_delete=models.SET_NULL,
+        null=True,
         related_name="receipts",
         help_text="The user who created the receipt",
     )

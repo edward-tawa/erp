@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from inventroy.models.product_model import Product
-from inventroy.models.product_stock_model import ProductStock
+from inventory.models.product_model import Product
+from inventory.models.product_stock_model import ProductStock
 
 
 class ProductStockSerializer(serializers.ModelSerializer):

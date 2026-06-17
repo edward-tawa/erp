@@ -3,7 +3,7 @@ attrs==26.1.0
 black==26.3.1
 build==1.4.3
 click==8.3.2
-Django==6.0.4
+Django==5.2.15
 django-cors-headers==4.9.0
 django-environ==0.13.0
 django-filter==25.2
@@ -12,9 +12,12 @@ djangorestframework_simplejwt==5.5.1
 drf-spectacular==0.29.0
 drf-yasg==1.21.15
 et_xmlfile==2.0.0
+factory_boy==3.3.3
+Faker==40.23.0
 flake8==7.3.0
 gunicorn==25.3.0
 inflection==0.5.1
+iniconfig==2.3.0
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
 loguru==0.7.3
@@ -28,11 +31,15 @@ pathspec==1.0.4
 pillow==12.2.0
 pip-tools==7.5.3
 platformdirs==4.9.6
+pluggy==1.6.0
 psycopg2-binary==2.9.11
 pycodestyle==2.14.0
 pyflakes==3.4.0
+Pygments==2.20.0
 PyJWT==2.12.1
 pyproject_hooks==1.2.0
+pytest==8.4.2
+pytest-django==4.12.0
 python-dateutil==2.9.0.post0
 python-decouple==3.8
 python-dotenv==1.2.2

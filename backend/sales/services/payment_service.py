@@ -6,7 +6,9 @@ from sales.models.payment_model import Payment
 class PaymentService:
     @staticmethod
     @transaction.atomic
-    def create_payment(*, receipt, user, payment_type, total_amount, denomination):
+    def create_payment(
+        *, receipt, user, total_amount, payment_type="CASH", denomination="USD"
+    ):
         try:
             payment = Payment.objects.create(
                 receipt=receipt,

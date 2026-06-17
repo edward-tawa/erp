@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from authentication.custom_jwt.custom_jwt import CustomJWTAuthentication
-from users.permissions.user_permissions import IsAdmin, IsManager, IsEmployee, IsViewer
+from users.permissions.user_permissions import IsManager, IsEmployee
 from django.contrib.auth import get_user_model
 from users.serializers.user_serializer import UserSerializer
 from loguru import logger
@@ -18,14 +18,11 @@ class UserViewSet(ModelViewSet):
     def get_permissions(self):
         if self.action in ["create", "update", "partial_update", "destroy"]:
             # Create/Update/Delete: Authenticated AND (Admin OR Manager)
-            return [IsAuthenticated(), IsAdmin() | IsManager()]
+            return [IsAuthenticated(), IsManager()]
 
         elif self.action in ["list", "retrieve"]:
             # List/Retrieve: Authenticated AND (any role)
-            return [
-                IsAuthenticated(),
-                IsAdmin() | IsManager() | IsEmployee() | IsViewer(),
-            ]
+            return [IsAuthenticated(), IsEmployee()]
 
         else:
             return [IsAuthenticated()]

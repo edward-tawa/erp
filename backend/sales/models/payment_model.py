@@ -23,6 +23,7 @@ class Payment(CreatedUpdatedAt):
     user = models.ForeignKey(
         "users.CustomUser",
         on_delete=models.SET_NULL,
+        null=True,
         related_name="payments",
         help_text="The user who recorded the payment",
     )

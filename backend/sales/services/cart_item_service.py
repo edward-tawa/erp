@@ -13,14 +13,6 @@ class CartItemService:
         cart_item = CartItem.objects.create(
             cart=cart, product=product, quantity=quantity, unit_price=unit_price
         )
-        if cart_item:
-            logger.info(
-                f"Created cart item for product '{cart_item.product.name}' with quantity {cart_item.quantity} in cart for user '{cart.user.username}'"
-            )
-        else:
-            logger.error(
-                f"Failed to create cart item for product '{product.name}' with quantity {quantity} in cart for user '{cart.user.username}'"
-            )
         CartService.calculate_cart_total(cart)
         return cart_item
 

@@ -7,7 +7,7 @@ class SaleSerializer(serializers.ModelSerializer):
         model = Sale
         fields = [
             "id",
-            "sale_reference",
+            "sale_reference_number",
             "sales_order",
             "receipt",
             "user",
@@ -18,7 +18,7 @@ class SaleSerializer(serializers.ModelSerializer):
 
         read_only_fields = [
             "id",
-            "sale_reference",
+            "sale_reference_number",
             "created_at",
             "updated_at",
         ]
