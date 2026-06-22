@@ -36,7 +36,11 @@ class SalesOrder(CreatedUpdatedAt):
     )
 
     total_amount = models.DecimalField(
-        max_digits=10, decimal_places=2, help_text="Total amount for the order"
+        max_digits=10,
+        decimal_places=2,
+        help_text="Total amount for the order",
+        null=True,
+        blank=True,
     )
 
     status = models.CharField(

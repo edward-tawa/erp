@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from inventory.models.stock_take_item_model import StockTakeItem
 from inventory.serializers.stock_take_item_serializer import StockTakeItemSerializer
-from users.permissions.user_permissions import IsManager, IsEmployee
+from users.permissions.user_permissions import IsManager, IsAnyRole
 from authentication.custom_jwt.custom_jwt import CustomJWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from loguru import logger
@@ -21,7 +21,7 @@ class StockTakeItemViewSet(ModelViewSet):
 
         elif self.action in ["list", "retrieve"]:
             # List/Retrieve: Authenticated AND (any role)
-            return [IsAuthenticated(), IsEmployee()]
+            return [IsAuthenticated(), IsAnyRole()]
 
         else:
             return [IsAuthenticated()]

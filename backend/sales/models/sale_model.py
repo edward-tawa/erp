@@ -53,13 +53,13 @@ class Sale(CreatedUpdatedAt):
             return self.sales_order.total_amount
         return 0.00
 
+    # not being used now
     def clean(self):
-        if bool(self.sales_order) != bool(self.receipt):
-            raise ValidationError("A sale must have both a sales order and a receipt.")
+        if not self.sales_order or not self.receipt:
+            return  # don't validate incomplete object
 
-        if self.sales_order and self.receipt:
-            if self.sales_order.total_amount != self.receipt.total_amount:
-                raise ValidationError("Sales order and receipt totals do not match.")
+        if self.sales_order.total_amount != self.receipt.total_amount:
+            raise ValidationError("Sales order and receipt totals do not match.")
 
     def generate_sale_reference_number(self):
         if not self.sale_reference_number:
@@ -68,7 +68,6 @@ class Sale(CreatedUpdatedAt):
 
     def save(self, *args, **kwargs):
         self.generate_sale_reference_number()
-        self.full_clean()
         super().save(*args, **kwargs)
 
     def __str__(self):

@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from inventory.models.category_model import Category
 from inventory.serializers.category_serializer import CategorySerializer
-from users.permissions.user_permissions import IsManager, IsEmployee
+from users.permissions.user_permissions import IsManager, IsAnyRole
 from authentication.custom_jwt.custom_jwt import CustomJWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from loguru import logger
@@ -21,7 +21,7 @@ class CategoryViewSet(ModelViewSet):
             # List/Retrieve: Authenticated AND (any role)
             return [
                 IsAuthenticated(),
-                IsEmployee(),
+                IsAnyRole(),
             ]
 
         else:

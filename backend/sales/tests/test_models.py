@@ -31,6 +31,17 @@ class TestSalesModels:
         assert sales_order.total_amount == Decimal("10.00")
         assert str(item).startswith("2 x")
 
+    def test_sales_order_total_calculation(self):
+        sales_order = SalesOrderFactory()
+        SalesOrderItemFactory(
+            sales_order=sales_order, quantity=1, unit_price=Decimal("3.00")
+        )
+        SalesOrderItemFactory(
+            sales_order=sales_order, quantity=2, unit_price=Decimal("4.00")
+        )
+        total = sales_order.calculate_sales_order_total()
+        assert total == Decimal("10.00")
+
     def test_cart_updates_total(self):
         cart = CartFactory()
         CartItemFactory(cart=cart, quantity=2, unit_price=Decimal("4.00"))

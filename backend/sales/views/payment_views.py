@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from sales.models.payment_model import Payment
-from users.permissions.user_permissions import IsEmployee, IsManager
+from users.permissions.user_permissions import IsManager, IsAnyRole
 from sales.serializers.payment_serializer import PaymentSerializer
 from loguru import logger
 
@@ -11,7 +11,7 @@ class PaymentViewSet(ModelViewSet):
 
     def get_permissions(self):
         if self.action in ["list", "retrieve"]:
-            permission_classes = [IsEmployee]
+            permission_classes = [IsAnyRole]
         else:
             permission_classes = [IsManager]
         return [permission() for permission in permission_classes]

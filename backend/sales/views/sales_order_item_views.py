@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from sales.models.sales_order_item_model import SalesOrderItem
 from sales.serializers.sales_order_item_serializer import SalesOrderItemSerializer
-from users.permissions.user_permissions import IsEmployee, IsManager
+from users.permissions.user_permissions import IsManager, IsAnyRole
 from loguru import logger
 
 
@@ -11,7 +11,7 @@ class SalesOrderItemViewSet(ModelViewSet):
 
     def get_permissions(self):
         if self.action in ["list", "retrieve"]:
-            permission_classes = [IsEmployee]
+            permission_classes = [IsAnyRole]
         else:
             permission_classes = [IsManager]
         return [permission() for permission in permission_classes]

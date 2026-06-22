@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from inventory.models.stock_movement_model import StockMovement
 from inventory.serializers.stock_movement_serializer import StockMovementSerializer
-from users.permissions.user_permissions import IsManager, IsEmployee
+from users.permissions.user_permissions import IsManager, IsAnyRole
 from authentication.custom_jwt.custom_jwt import CustomJWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from loguru import logger
@@ -21,7 +21,7 @@ class StockMovementViewSet(ModelViewSet):
             # List/Retrieve: Authenticated AND (any role)
             return [
                 IsAuthenticated(),
-                IsEmployee(),
+                IsAnyRole(),
             ]
 
         else:

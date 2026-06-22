@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from sales.models.receipt_model import Receipt
-from users.permissions.user_permissions import IsEmployee, IsManager
+from users.permissions.user_permissions import IsManager, IsAnyRole
 from sales.serializers.receipt_serializer import ReceiptSerializer
 from loguru import logger
 
@@ -11,7 +11,7 @@ class ReceiptViewSet(ModelViewSet):
 
     def get_permissions(self):
         if self.action in ["list", "retrieve"]:
-            permission_classes = [IsEmployee]
+            permission_classes = [IsAnyRole]
         else:
             permission_classes = [IsManager]
         return [permission() for permission in permission_classes]

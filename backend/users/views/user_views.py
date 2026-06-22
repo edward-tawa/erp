@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from authentication.custom_jwt.custom_jwt import CustomJWTAuthentication
-from users.permissions.user_permissions import IsManager, IsEmployee
+from users.permissions.user_permissions import IsManager, IsAnyRole
 from django.contrib.auth import get_user_model
 from users.serializers.user_serializer import UserSerializer
 from loguru import logger
@@ -22,7 +22,7 @@ class UserViewSet(ModelViewSet):
 
         elif self.action in ["list", "retrieve"]:
             # List/Retrieve: Authenticated AND (any role)
-            return [IsAuthenticated(), IsEmployee()]
+            return [IsAuthenticated(), IsAnyRole()]
 
         else:
             return [IsAuthenticated()]

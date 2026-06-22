@@ -4,11 +4,11 @@ from rest_framework import status
 from sales.serializers.checkout_serializer import CheckoutSerializer
 from sales.services.check_out_service import CheckOutService
 from sales.models.cart_model import Cart
-from users.permissions.user_permissions import IsEmployee, IsManager
+from users.permissions.user_permissions import IsAnyRole
 
 
 class CheckoutView(APIView):
-    permission_classes = [IsEmployee | IsManager]
+    permission_classes = [IsAnyRole]
 
     def post(self, request):
         serializer = CheckoutSerializer(data=request.data)
