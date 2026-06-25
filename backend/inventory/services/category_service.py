@@ -1,4 +1,4 @@
-from inventroy.models.category_model import Category
+from inventory.models.category_model import Category
 from django.db import transaction
 from loguru import logger
 

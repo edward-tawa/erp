@@ -1,4 +1,4 @@
-from inventroy.models.stock_model import Stock
+from inventory.models.product_stock_model import ProductStock
 from django.db import transaction
 from loguru import logger
 
@@ -7,61 +7,61 @@ class StockService:
     @staticmethod
     @transaction.atomic
     def create_stock(*, product, quantity, min_stock_level=None):
-        stock = Stock.objects.create(
+        product_stock = ProductStock.objects.create(
             product=product, quantity=quantity, min_stock_level=min_stock_level
         )
-        if stock:
+        if product_stock:
             logger.info(
-                f"Created stock entry for product '{stock.product.name}' with quantity {stock.quantity}"
+                f"Created stock entry for product '{product_stock.product.name}' with quantity {product_stock.quantity}"
             )
         else:
             logger.error(f"Failed to create stock entry for product '{product.name}'")
-        return stock
+        return product_stock
 
     @staticmethod
     @transaction.atomic
     def update_stock(stock_id, **updated_fields):
         try:
-            stock = Stock.objects.get(id=stock_id)
-        except Stock.DoesNotExist:
+            product_stock = ProductStock.objects.get(id=stock_id)
+        except ProductStock.DoesNotExist:
             logger.error(f"Stock with ID '{stock_id}' does not exist")
             return None
 
         for key, value in updated_fields.items():
-            setattr(stock, key, value)
+            setattr(product_stock, key, value)
 
-        stock.save()
+        product_stock.save()
         logger.info(f"Stock with ID '{stock_id}' updated successfully")
-        return stock
+        return product_stock
 
     @staticmethod
     @transaction.atomic
-    def delete_stock(stock_id):
+    def delete_stock(product_stock_id):
         try:
-            stock = Stock.objects.get(id=stock_id)
-            stock.delete()
-            logger.info(f"Stock with ID '{stock_id}' deleted successfully")
+            product_stock = ProductStock.objects.get(id=product_stock_id)
+            product_stock.delete()
+            logger.info(f"Stock with ID '{product_stock_id}' deleted successfully")
             return True
-        except Stock.DoesNotExist:
-            logger.error(f"Stock with ID '{stock_id}' does not exist")
+        except ProductStock.DoesNotExist:
+            logger.error(f"Stock with ID '{product_stock_id}' does not exist")
             return False
 
     @staticmethod
-    def get_stock_by_id(stock_id):
+    def get_stock_by_id(product_stock_id):
         try:
-            return Stock.objects.get(id=stock_id)
-        except Stock.DoesNotExist:
-            logger.error(f"Stock with ID '{stock_id}' does not exist")
+            return ProductStock.objects.get(id=product_stock_id)
+        except ProductStock.DoesNotExist:
+            logger.error(f"Stock with ID '{product_stock_id}' does not exist")
             return None
 
     @staticmethod
-    def list_stocks():
-        return Stock.objects.all().order_by("-id")
+    def list_product_stocks():
+        return ProductStock.objects.all().order_by("-id")
 
     @staticmethod
     def adjust_product_stock(product_id, quantity_change):
         try:
-            stock = Stock.objects.select_for_update().get(product_id=product_id)
+            stock = ProductStock.objects.select_for_update().get(product_id=product_id)
             new_quantity = stock.quantity + quantity_change
 
             if new_quantity < 0:
@@ -75,11 +75,11 @@ class StockService:
             stock.save()
 
             logger.info(
-                f"Adjusted stock for product ID '{product_id}' by {quantity_change}. "
+                f"Adjusted stock for product ID '{product_id}' by {quantity_change}."
                 f"New quantity: {stock.quantity}"
             )
             return stock
 
-        except Stock.DoesNotExist:
+        except ProductStock.DoesNotExist:
             logger.error(f"Stock for product ID '{product_id}' does not exist")
             return None

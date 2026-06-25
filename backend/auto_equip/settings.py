@@ -48,6 +48,8 @@ THRID_PARTY_APPS = [
 LOCAL_APPS = [
     "users",
     "authentication",
+    "inventory",
+    "sales",
 ]
 
 

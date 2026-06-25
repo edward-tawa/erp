@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
-from inventroy.models.stock_take_item_model import StockTakeItem
-from inventroy.serializers.stock_take_item_serializer import StockTakeItemSerializer
-from users.permissions.user_permissions import IsAdmin, IsManager, IsEmployee, IsViewer
+from inventory.models.stock_take_item_model import StockTakeItem
+from inventory.serializers.stock_take_item_serializer import StockTakeItemSerializer
+from users.permissions.user_permissions import IsManager, IsAnyRole
 from authentication.custom_jwt.custom_jwt import CustomJWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from loguru import logger
@@ -17,14 +17,11 @@ class StockTakeItemViewSet(ModelViewSet):
     def get_permissions(self):
         if self.action in ["create", "update", "partial_update", "destroy"]:
             # Create/Update/Delete: Authenticated AND (Admin OR Manager)
-            return [IsAuthenticated(), IsAdmin() | IsManager()]
+            return [IsAuthenticated(), IsManager()]
 
         elif self.action in ["list", "retrieve"]:
             # List/Retrieve: Authenticated AND (any role)
-            return [
-                IsAuthenticated(),
-                IsAdmin() | IsManager() | IsEmployee() | IsViewer(),
-            ]
+            return [IsAuthenticated(), IsAnyRole()]
 
         else:
             return [IsAuthenticated()]

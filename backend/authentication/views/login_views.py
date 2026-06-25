@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.middleware.csrf import get_token
 from users.serializers.user_serializer import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.db import Q
+from django.db.models import Q
 from loguru import logger
 
 User = get_user_model()

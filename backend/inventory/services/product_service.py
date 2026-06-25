@@ -1,4 +1,4 @@
-from inventroy.models.product_model import Product
+from inventory.models.product_model import Product
 from django.db import transaction
 from loguru import logger
 

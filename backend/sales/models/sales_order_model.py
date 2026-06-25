@@ -14,19 +14,33 @@ class SalesOrder(CreatedUpdatedAt):
         CANCELLED = "CANCELLED", "Cancelled"
 
     PREFIX = "SO"
+
+    user = models.ForeignKey(
+        "users.CustomUser",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="sales_orders",
+        help_text="The user who created the sales order",
+    )
+
     order_number = models.CharField(
         max_length=255, unique=True, help_text="Unique order number"
     )
 
-    customer_name = models.CharField(
-        max_length=255,
-        help_text="Name of the customer placing the order",
+    customer = models.ForeignKey(
+        "sales.Customer",
+        on_delete=models.SET_NULL,
         null=True,
-        blank=True,
+        related_name="sales_orders",
+        help_text="The customer who placed the order",
     )
 
     total_amount = models.DecimalField(
-        max_digits=10, decimal_places=2, help_text="Total amount for the order"
+        max_digits=10,
+        decimal_places=2,
+        help_text="Total amount for the order",
+        null=True,
+        blank=True,
     )
 
     status = models.CharField(
@@ -42,9 +56,9 @@ class SalesOrder(CreatedUpdatedAt):
             self.order_number = f"{self.PREFIX}-{unique_id}"
 
     def calculate_sales_order_total(self):
-        return self.sales_order_items.aggregate(
-            total=Sum(F("quantity") * F("unit_price"))
-        ).get("total") or Decimal("0.00")
+        return self.items.aggregate(total=Sum(F("quantity") * F("unit_price"))).get(
+            "total"
+        ) or Decimal("0.00")
 
     def update_sales_order_total(self):
         total = self.calculate_sales_order_total()
@@ -65,5 +79,5 @@ class SalesOrder(CreatedUpdatedAt):
 
         indexes = [
             models.Index(fields=["order_number"]),
-            models.Index(fields=["customer_name"]),
+            models.Index(fields=["customer"]),
         ]

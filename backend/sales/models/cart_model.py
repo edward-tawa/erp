@@ -9,7 +9,7 @@ class Cart(CreatedUpdatedAt):
     PREFIX = "CART"
 
     user = models.OneToOneField(
-        "auth.User", on_delete=models.CASCADE, related_name="cart"
+        "users.CustomUser", on_delete=models.CASCADE, related_name="cart"
     )
 
     reference_number = models.CharField(max_length=50, unique=True, editable=False)
@@ -26,9 +26,9 @@ class Cart(CreatedUpdatedAt):
             self.reference_number = f"{self.PREFIX}-{uuid.uuid4().hex[:6].upper()}"
 
     def update_cart_total(self):
-        total = self.cart_items.aggregate(
-            total=Sum(F("quantity") * F("unit_price"))
-        ).get("total", Decimal("0.00")) or Decimal("0.00")
+        total = self.items.aggregate(total=Sum(F("quantity") * F("unit_price"))).get(
+            "total", Decimal("0.00")
+        ) or Decimal("0.00")
         self.total_amount = total
         self.save(update_fields=["total_amount"])
 

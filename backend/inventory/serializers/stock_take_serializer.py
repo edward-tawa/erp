@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from inventroy.models.stock_take_model import StockTake
+from inventory.models.stock_take_model import StockTake
 
 
 class StockTakeSerializer(serializers.ModelSerializer):
@@ -8,7 +8,6 @@ class StockTakeSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "reference_number",
-            "product",
             "taken_by",
             "date_taken",
             "status",
@@ -18,7 +17,6 @@ class StockTakeSerializer(serializers.ModelSerializer):
 
         extra_kwargs = {
             "reference_number": {"read_only": True},
-            "product": {"required": True},
             "taken_by": {"required": True},
             "date_taken": {"required": True},
             "created_at": {"read_only": True},

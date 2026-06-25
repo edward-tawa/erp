@@ -1,4 +1,4 @@
-from inventroy.models.stock_take_item_model import StockTakeItem
+from inventory.models.stock_take_item_model import StockTakeItem
 from django.db import transaction
 from loguru import logger
 
