@@ -7,6 +7,7 @@ from sales.models.receipt_model import Receipt
 class SaleSerializer(serializers.ModelSerializer):
     sales_order = serializers.PrimaryKeyRelatedField(queryset=SalesOrder.objects.all())
     receipt = serializers.PrimaryKeyRelatedField(queryset=Receipt.objects.all())
+    notes = serializers.CharField(required=False, allow_blank=True)
 
     class Meta:
         model = Sale

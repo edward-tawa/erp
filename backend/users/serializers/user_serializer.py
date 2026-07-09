@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
-        read_only_fields = ["id", "is_active"]
+        read_only_fields = ["id", "is_active", "created_at", "updated_at"]
         extra_kwargs = {"password": {"write_only": True, "required": True}}
 
     def validate_email(self, value):
