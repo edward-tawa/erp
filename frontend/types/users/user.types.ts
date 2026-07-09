@@ -6,7 +6,7 @@ export interface User {
     email: string;
     role: string;
     createdAt: string;
-    updatedAt?: string;
+    updatedAt?: string | null;
 }
 
 
@@ -22,13 +22,11 @@ export interface CreateUserRequest {
 
 
 export interface GetUserRequest {
-    id: string;
+    id: number;
 }
 
 
-
 export type GetUserResponse = User;
-
 
 
 
@@ -41,7 +39,7 @@ export type UpdateUserResponse = User;
 
 
 export interface DeleteUserRequest {
-    id: string;
+    id: number;
 }
 
 

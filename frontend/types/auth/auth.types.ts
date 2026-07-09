@@ -1,3 +1,5 @@
+import { User } from "@/types/users/user.types";
+
 export interface SignUpRequest {
     firstName?: string;
     lastName?: string;
@@ -8,6 +10,11 @@ export interface SignUpRequest {
 }
 
 
+export interface SignUpResponse {
+    message: string;
+}
+
+
 export interface LoginRequest {
     email: string;
     password: string;
@@ -15,8 +22,14 @@ export interface LoginRequest {
 
 
 export interface AuthResponse {
-    accessToken: string;
-    refreshToken: string;
+    message: string;
+}
+
+
+export interface AuthState {
+    user: User | null;
+    isAuthenticated: boolean;
+    isLoading: boolean;
 }
 
 
