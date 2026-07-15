@@ -21,15 +21,15 @@ export interface LoginRequest {
 }
 
 
+export interface LoginResponse {
+    message: string;
+    user: User;
+}
+
+
 export interface AuthResponse {
     message: string;
 }
 
-
-export interface AuthState {
-    user: User | null;
-    isAuthenticated: boolean;
-    isLoading: boolean;
-}
 
 

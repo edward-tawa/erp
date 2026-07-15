@@ -2,8 +2,8 @@ import { User } from "@/types/users/user.types";
 
 
 export interface Cart {
-    id: number;
-    user: User;
+    id: number | null;
+    user: User | null;
     referenceNumber: string;
     totalAmount: number;
     createdAt: string;
@@ -13,7 +13,7 @@ export interface Cart {
 
 
 export interface CreateCartRequest {
-    user?: User;
+    user?: User | null;
     referenceNumber?: string;
     totalAmount?: number;
 }

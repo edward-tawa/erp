@@ -3,7 +3,7 @@ import { ProductStock, CreateProductStockRequest, CreateProductStockResponse } f
 
 
 
-const productStockService = {
+export const productStockService = {
     createProductStock: async (productStock: CreateProductStockRequest): Promise<CreateProductStockResponse> => {
         const response = await api.post<CreateProductStockResponse>("/product-stocks", productStock);
         return response.data;

@@ -19,6 +19,11 @@ export interface CreateUserRequest {
     role: string;
 }
 
+export interface CreateUserResponse {
+    message: string;
+    user: User;
+}
+
 
 
 export interface GetUserRequest {

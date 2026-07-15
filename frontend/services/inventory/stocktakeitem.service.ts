@@ -1,7 +1,8 @@
 import api from "@/services/api";
 import { StocktakeItem, CreateStocktakeItemRequest, CreateStocktakeItemResponse } from "@/types/inventory/stocktakeitem.types";
 
-const stocktakeItemService = {
+
+export const stocktakeItemService = {
     createStocktakeItem: async (stocktakeItem: CreateStocktakeItemRequest): Promise<CreateStocktakeItemResponse> => {
         const response = await api.post<CreateStocktakeItemResponse>("/stocktake-items", stocktakeItem);
         return response.data;

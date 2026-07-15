@@ -2,7 +2,7 @@ import api from "@/services/api";
 import { CreateCategoryRequest, CreateCategoryResponse } from "@/types/inventory/category.types";
 
 
-const categoryService = {
+export const categoryService = {
     createCategory: async (category: CreateCategoryRequest): Promise<CreateCategoryResponse> => {
         const response = await api.post<CreateCategoryResponse>("/categories", category);
         return response.data;

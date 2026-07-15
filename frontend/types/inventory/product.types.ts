@@ -21,6 +21,13 @@ export interface CreateProductRequest {
 
 export interface CreateProductResponse {
     id: number;
+    name: string;
+    category: Category;
+    sku: string;
+    price: number;
+    image: string;
+    createdAt: string;
+    UpdatedAt: string;
 }
 
 

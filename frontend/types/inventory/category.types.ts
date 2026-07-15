@@ -14,6 +14,10 @@ export interface CreateCategoryRequest {
 
 export interface CreateCategoryResponse {
     id: number;
+    name: string;
+    description: string;
+    createdAt: string;
+    updatedAt?: string;
 }
 
 export interface GetCategoryRequest {

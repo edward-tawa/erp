@@ -3,15 +3,13 @@ import {
     Product,
     CreateProductRequest,
     CreateProductResponse,
-    GetProductRequest,
     UpdateProductRequest,
     UpdateProductResponse,
-    DeleteProductRequest,
     DeleteProductResponse,
     GetProductResponse
 } from "@/types/inventory/product.types";
 
-const productService = {
+export const productService = {
     createProduct: async (product: CreateProductRequest): Promise<CreateProductResponse> => {
         const response = await api.post<CreateProductResponse>("/products", product);
         return response.data;
