@@ -1,64 +1,110 @@
-import Image from "next/image";
+// @/app/page.tsx
+"use client";
+import React from 'react';
+import ProductCard from '@/components/inventory/ProductCard';
+import { Product } from '@/types/inventory/product.types';
 
 export default function Home() {
+  const inventoryProducts: Product[] = [
+    {
+      id: 101,
+      name: "Industrial Stainless Steel Valve",
+      sku: "VAL-STEL-44X",
+      price: 189.50,
+      image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop",
+      category: {
+        id: 1,
+        name: "Mechanical Components",
+        description: "Heavy duty manufacturing and industrial plumbing parts.",
+        createdAt: "2026-01-01T00:00:00Z"
+      },
+      createdAt: "2026-01-15T08:00:00Z",
+      UpdatedAt: "2026-03-22T14:30:00Z"
+    },
+    {
+      id: 102,
+      name: "Premium Ergonomic Workstation Chair",
+      sku: "CHR-ERGO-997",
+      price: 340.00,
+      image: "https://images.unsplash.com/photo-1505797149-43b0069ec26b?q=80&w=400&auto=format&fit=crop",
+      category: {
+        id: 2,
+        name: "Office Furniture",
+        description: "Ergonomic seating and adaptive office desks.",
+        createdAt: "2026-01-01T00:00:00Z"
+      },
+      createdAt: "2026-02-11T09:15:00Z",
+      UpdatedAt: "2026-05-19T11:00:00Z"
+    },
+    {
+      id: 103,
+      name: "High-Speed Thermal Label Printer",
+      sku: "PRN-THR-M20",
+      price: 125.00,
+      image: "",
+      category: {
+        id: 3,
+        name: "Logistics Equipment",
+        description: "Warehouse barcode tools, scales, and shipping peripherals.",
+        createdAt: "2026-01-01T00:00:00Z"
+      },
+      createdAt: "2026-03-01T14:22:00Z",
+      UpdatedAt: "2026-04-10T16:45:00Z"
+    },
+    {
+      id: 104,
+      name: "Cat6A Shielded Ethernet Cable (100ft)",
+      sku: "CBL-C6AS-100",
+      price: 42.99,
+      image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=400&auto=format&fit=crop",
+      category: {
+        id: 4,
+        name: "Networking",
+        description: "High-bandwidth data infrastructure cables and switches.",
+        createdAt: "2026-01-01T00:00:00Z"
+      },
+      createdAt: "2026-04-05T10:00:00Z",
+      UpdatedAt: "2026-04-05T10:00:00Z"
+    }
+  ];
+
+  const handleAddToCart = (product: Product) => {
+    console.log(`Dispatched item to local storage / state context: ${product.name} (SKU: ${product.sku})`);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans transition-colors duration-200">
+      <main className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        {/* Workspace Title Header Section */}
+        <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-200 dark:border-zinc-800 pb-5">
+          <div>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+              Inventory Directory
+            </h1>
+            <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+              Real-time monitoring and active product list management dashboard.
+            </p>
+          </div>
+          <div className="text-[10px] sm:text-xs font-mono bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 px-2.5 py-1 rounded-md self-start sm:self-center">
+            Total Records: {inventoryProducts.length}
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        {/* 
+          FIX: 'grid-cols-2' forces 2 columns on mobile layout. 
+          'gap-3 sm:gap-6' tightens padding on phones to preserve horizontal area.
+        */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+          {inventoryProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onAddToCart={handleAddToCart}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          ))}
         </div>
+
       </main>
     </div>
   );
