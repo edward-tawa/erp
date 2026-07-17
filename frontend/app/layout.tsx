@@ -1,3 +1,4 @@
+// @/app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -39,25 +40,21 @@ export default function RootLayout({
               <Navbar />
             </header>
 
-            {/* 2. Page Content Wrapper 
-                Mobile: flex-col (Sidebar is stacked under navbar, above the content)
-                Desktop: flex-row (Sidebar is on the left, content is on the right)
-            */}
-            <div className="flex flex-col md:flex-row flex-grow">
+            {/* 2. Page Content Wrapper */}
+            <div className="flex flex-col md:flex-row flex-grow relative">
 
-              {/* Sidebar sits under the navbar on mobile, or to the left on desktop */}
+              {/* Sidebar Component */}
               <Sidebar />
 
-              {/* Main Content Area */}
-              <main className="flex-grow p-4 md:p-6">
+              {/* 
+                Main Content Area 
+                FIX: added 'md:pl-64' so the layout doesn't slide under your fixed desktop sidebar!
+              */}
+              <main className="flex-grow p-4 md:p-6 md:pl-64 transition-all duration-200">
                 {children}
               </main>
 
             </div>
-
-            {/* 3. Optional Footer */}
-            {/* <Footer /> */}
-
           </div>
         </ReduxProvider>
       </body>
